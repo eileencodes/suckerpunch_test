@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+ENV['RAILS_ENV'] ||= 'production'
+require_relative '../../config/environment'
+
+(1..100).each do |n|
+  CreateUserJob.perform_later(n)
+end
