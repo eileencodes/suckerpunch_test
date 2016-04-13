@@ -1,24 +1,21 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To run the test do the following:
 
-Things you may want to cover:
+* Clone the repo
 
-* Ruby version
+* Run the migrations
 
-* System dependencies
+* Tail the log
 
-* Configuration
+* Run the script while tailing the log
 
-* Database creation
+```
+RAILS_ENV=development ruby script/jobs/add_new_users
+```
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+What you'll see is that 100 jobs will be enqueued, but they all won't get performed.
+This is becasue the queue is shutdown before the jobs are finished. When the script
+finishes running SuckerPunch knows the script exited and at that point shuts down the
+queue. While this is correct, I'd expect it to finish the jobs that are already in
+the queue becasue the code seems to be doing a graceful shutdown.
